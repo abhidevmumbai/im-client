@@ -79,15 +79,17 @@ body {
 	overflow-y: scroll;
 }
 #user-list li {
+	border-left: 2px #fff solid;
 	border-bottom: 1px solid #ccd8de;
     color: #929da8;
     line-height: 44px;
 	overflow: hidden;
-    padding: 15px;
+    padding: 10px;
     position: relative;
 }
 #user-list li:hover {
 	background: #d6dee7;
+	border-left: 2px #3488be solid;
 }
 #user-list li .active {
 	background: #4b91c0;
@@ -110,4 +112,25 @@ body {
 }
 #user-list li .idle {
 	color: orange;
+}
+
+/* Messages */ 
+.conversation {
+	max-height: 345px;
+	overflow-y: scroll;
+}
+.msgBox {
+	border-bottom: 1px #ccd8de solid;
+	padding: 20px 15px;
+	overflow: hidden;
+}
+.msgBox .info {
+	padding: 5px 0;
+	overflow: hidden;
+}
+.msgBox .name {
+	font-weight: bold;
+}
+.msgBox .time, .msgBox .text {
+	color: #929DA8;
 }
