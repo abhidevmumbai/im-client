@@ -19,6 +19,7 @@ body {
 }
 
 .FL {float: left;} .FR {float: right;}
+.MR10{ margin-right: 10px;}
 
 #wrapper {
 	background: #fff;
@@ -86,14 +87,14 @@ body {
     padding: 10px;
     position: relative;
 }
-#user-list li:hover {
+#user-list li:hover, #user-list li.active {
 	background: #d6dee7;
 	border-left: 2px #3488be solid;
 }
-#user-list li.active {
+/*#user-list li.active {
 	color: #fff;
 	background: #4b91c0;
-}
+}*/
 #user-list li .name {
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -133,6 +134,9 @@ body {
 }
 .msgBox .time, .msgBox .text {
 	color: #929DA8;
+}
+.msgBox .time {
+	font-size: 12px;
 }
 
 .inputBox {
@@ -175,7 +179,10 @@ body {
 	top: 0;
 	left: 0;
 }
-
+.profilePane a {
+	color: #d6dee7;
+	text-decoration: none;
+}
 .profilePane .pic {
 	border-radius: 75px;
 	width: 150px;

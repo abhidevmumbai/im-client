@@ -3,32 +3,92 @@ var messenger = {
         aj: {
             pic: 'images/avatar.jpg',
             name: 'Alan Jensen',
-            status: 'online'
+            status: 'online',
+            department: 'Administrator US Group',
+            email: 'alan.jensen@corp.company.com',
+            details: {
+	            mobile: '+44 (0) 7887 554 433',
+	            location: 'UK-London',
+	            manager: 'Alan Jenson',
+	            ext: '14592',
+	            skill: 'Expert User (50k+)',
+	            lastActivity: 'Online Now'
+	        }
         },
         jh: {
             pic: 'images/avatar.jpg',
             name: 'Jacquelin Holmes',
-            status: 'online'
+            status: 'online',
+            department: 'Administrator UK Group',
+            email: 'jaqueline.holmes@corp.company.com',
+            details: {
+	            mobile: '+44 (0) 7887 554 433',
+	            location: 'UK-London',
+	            manager: 'Alan Jenson',
+	            ext: '14592',
+	            skill: 'Expert User (50k+)',
+	            lastActivity: 'Online Now'
+	        }
         },
         es: {
             pic: 'images/avatar.jpg',
             name: 'Eugene Simpson',
-            status: 'offline'
+            status: 'offline',
+            department: 'Administrator UK Group',
+            email: 'eugene.simpson@corp.company.com',
+            details: {
+	            mobile: '+44 (0) 7887 554 433',
+	            location: 'UK-London',
+	            manager: 'Alan Jenson',
+	            ext: '14592',
+	            skill: 'Expert User (50k+)',
+	            lastActivity: 'Offline'
+	        }
         },
         tm: {
             pic: 'images/avatar.jpg',
             name: 'Thomas Morgan',
-            status: 'idle'
+            status: 'idle',
+            department: 'Administrator UK Group',
+            email: 'thomas.morgan@corp.company.com',
+            details: {
+	            mobile: '+44 (0) 7887 554 433',
+	            location: 'UK-London',
+	            manager: 'Alan Jenson',
+	            ext: '14592',
+	            skill: 'Expert User (50k+)',
+	            lastActivity: 'Idle'
+	        }
         },
         hl: {
             pic: 'images/avatar.jpg',
             name: 'Hamish Labatt',
-            status: 'online'
+            status: 'online',
+            department: 'Administrator UK Group',
+            email: 'hamish.labatt@corp.company.com',
+            details: {
+	            mobile: '+44 (0) 7887 554 433',
+	            location: 'UK-London',
+	            manager: 'Alan Jenson',
+	            ext: '14592',
+	            skill: 'Expert User (50k+)',
+	            lastActivity: 'Online Now'
+	        }
         },
         kp: {
             pic: 'images/avatar.jpg',
             name: 'Katy Perry',
-            status: 'offline'
+            status: 'offline',
+            department: 'Administrator UK Group',
+            email: 'katy.perry@corp.company.com',
+            details: {
+	            mobile: '+44 (0) 7887 554 433',
+	            location: 'UK-London',
+	            manager: 'Alan Jenson',
+	            ext: '14592',
+	            skill: 'Expert User (50k+)',
+	            lastActivity: 'Offline'
+	        }
         }
     },
 
@@ -47,24 +107,52 @@ var messenger = {
         $('#user-list').html(list);
     },
 
-    viewProfile: function (id) {
-    	var user = this.users[id],
-    		html = '';
+    viewProfile: function (id, flag) {
+    	var profilePane = $('.profilePane'),
+    		user = this.users[id],
+    		html = '<p><img class="pic" src="'+ user.pic +'" /></p>'
+                    +'<p class="name">'+ user.name +'</p>'
+                    +'<p>84/1300</p>'
+                    +'<p>'+ user.department +'</p>'
+                    +'<p>'+ user.email +'</p>',
+            details = '<ul class="details">';
+
+        for (key in user.details) {
+        	details += '<li>'
+                        +'<div class="term">'+ key +':</div>'
+                        +'<div class="desc">'+ user.details[key] +'</div>'
+                    '</li>';
+        }
+        details += '</ul>';
+		html += details;    	
+
+    	profilePane.find('.name').text(user.name);
+    	profilePane.find('.content').html(html);
+    	if (flag) {
+    		profilePane.fadeIn('slow');
+    	} else {
+    		profilePane.fadeOut('slow');
+    	}
     },
 
     bindEvents: function() {
-    	$('#user-list').on('click', 'li', function(ev) {
-    		ev.preventDefault();
+    	$('#user-list').on('click', 'li', function() {
+    		var id = $(this).attr('id');
+
     		$('#user-list li').removeClass('active');
     		$(this).addClass('active');
-    		$('.leftPane .header .name').text(messenger.users[$(this).attr('id')].name);
+    		$('.leftPane .header .name').text(messenger.users[id].name);
+    		
+    		if ($('.profilePane').is(':visible')) {
+    			messenger.viewProfile(id, true);
+    		}
         });
 
         $('#profileBtn').bind('click', function(ev) {
         	ev.preventDefault();
-        	var id = $('#user-list li.active').attr('id');
-        	messenger.viewProfile(id);
-        	$('.profilePane').fadeToggle('slow');
+        	var id = $('#user-list li.active').attr('id'),
+        		flag = $('.profilePane').is(':visible');
+        	messenger.viewProfile(id, !flag);
         });
 
         $('.profilePane .backBtn').bind('click', function(ev) {
