@@ -19,6 +19,7 @@ body {
 }
 
 .FL {float: left;} .FR {float: right;}
+.DN { display: none;}
 .MR10{ margin-right: 10px;}
 
 #wrapper {
@@ -74,6 +75,15 @@ body {
     border-radius: 22px;
     margin-right: 15px;
 }
+.callBox {
+	color: #fff;
+	background: #4b91c0;
+	line-height: 44px;
+	overflow: hidden;
+    padding: 10px;
+    position: relative;
+}
+
 #user-list {
 	max-height: 445px;
 	overflow-y: scroll;
@@ -91,10 +101,7 @@ body {
 	background: #d6dee7;
 	border-left: 2px #3488be solid;
 }
-/*#user-list li.active {
-	color: #fff;
-	background: #4b91c0;
-}*/
+
 #user-list li .name {
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -181,6 +188,9 @@ body {
 	color: #d6dee7;
 	text-decoration: none;
 }
+.profilePane .callStatus {
+	padding: 60px 0 0 0;
+}
 .profilePane .content {
 	background: rgba(75, 145, 192, 0.95);
     padding: 20px;
@@ -226,24 +236,38 @@ body {
 }
 
 /* Buttons */
-.actions button {
+button {
 	color: #fff;
+	cursor: pointer;
 	background: transparent;
 	display: block;
-	width: 56px;
-	height: 56px;
+	width: 44px;
+	height: 44px;
 	border:2px #fff solid;
-	border-radius: 28px;
-	display: none;
+	border-radius: 22px;
 	font-size: 22px;
+	
+}
+.actions button {
 	position: absolute;
 	top: 20%;
+	display: none;	
 }
 .actions .emailBtn {
-	background: #397dab;	
-    left: 5%;
+	left: 5%;
 }
 .actions .callBtn {
-	background: #ae4d3d;
 	right: 5%;
+}
+.emailBtn, .muteBtn {
+	background: #397dab;	
+}
+.callBtn, .endBtn {
+	background: #ae4d3d;
+}
+.endBtn {
+	-webkit-transform: rotate(132deg);
+}
+.profilePane .activeCall {
+	width: 150px;
 }

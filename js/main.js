@@ -93,6 +93,11 @@ var messenger = {
         }
     },
 
+    timer: {
+    	secs: 0,
+    	mins: 0
+    },
+
     init: function() {
         this.renderUsers();
         this.bindEvents();
@@ -113,7 +118,8 @@ var messenger = {
     viewProfile: function (id, flag) {
     	var profilePane = $('.profilePane'),
     		user = this.users[id],
-    		html = '<p class="actions">'
+    		html = 	'<div class="callStatus DN">Calling...</div>'
+    				+'<p class="actions">'
     				+'<button class="emailBtn FL"><i class="fa fa-envelope"></i></button>'
     				+'<button class="callBtn FR"><i class="fa fa-phone"></i></button>'
     				+'<img class="pic" src="'+ user.pic +'" /></p>'
@@ -130,7 +136,12 @@ var messenger = {
                     '</li>';
         }
         details += '</ul>';
-		html += details;    	
+		html += details;
+
+		html  += '<p class="activeCall DN">'
+    				+'<button class="muteBtn FL"><i class="fa fa-microphone-slash"></i></button>'
+    				+'<button class="endBtn FR"><i class="fa fa-phone"></i></button>'
+    				+'</p>'
 
 		profilePane.css({
 			'background': 'url("images/avatar.jpg") center no-repeat',
@@ -138,13 +149,11 @@ var messenger = {
 		});
     	profilePane.find('.name').text(user.name);
     	profilePane.find('.content').html(html);
+
+    	// Adding animation to the action btns
     	if (flag) {
     		profilePane.fadeIn('slow', function () {
-    			$(this).find('.emailBtn').show().addClass('animated zoomIn').one(messenger.animationEnd, function () {
-    				$(this).removeClass('animated zoomIn');
-    			});
-
-    			$(this).find('.callBtn').show().addClass('animated zoomIn').one(messenger.animationEnd, function () {
+    			$(this).find('.emailBtn, .callBtn').show().addClass('animated zoomIn').one(messenger.animationEnd, function () {
     				$(this).removeClass('animated zoomIn');
     			});
     		});
@@ -153,9 +162,80 @@ var messenger = {
     	}
     },
 
+    startCall: function () {
+    	console.log('starting call');
+    	var profilePane = $('.profilePane');
+    	profilePane.find('.callStatus').show();
+    	$('.callStatus').slideDown();
+    	profilePane.find('.details').slideUp();
+
+    	setTimeout(function() {
+    		messenger.startTimer();
+    	}, 3000);
+    },
+
+    endCall: function () {
+    	console.log('ending call');
+    	var leftPane = $('.leftPane'),
+    		rightPane = $('.rightPane'),
+    		statusDiv = $('<div class="callStatus DN">Calling...</div>');
+
+    	leftPane.find('.callStatus').slideUp();
+    	leftPane.find('.details').slideDown();
+
+    	$('.activeCall, .activeCall button').hide();
+		leftPane.find('.emailBtn, .callBtn').show().addClass('animated zoomIn').one(messenger.animationEnd, function () {
+			$(this).removeClass('animated zoomIn');
+		});
+
+		rightPane.find('.content .callBox').slideUp();
+    	// Reset timer
+    	clearInterval(messenger.timerId);
+    	this.timer.secs = 0;
+    	this.timer.mins = 0; 
+    },
+
+    startTimer: function () {
+    	var leftPane = $('.leftPane'),
+    		rightPane = $('.rightPane')
+    		secs = new Date,
+			time = '';
+
+		rightPane.find('.name').text(messenger.currUser.name);
+		rightPane.find('.content .callBox').slideDown();
+
+		$('.activeCall, .activeCall button').show();
+		leftPane.find('.emailBtn, .callBtn').hide();
+
+		$('.activeCall').find('.muteBtn, .endBtn').show().addClass('animated zoomIn').one(messenger.animationEnd, function () {
+			$(this).removeClass('animated zoomIn');
+		});
+
+		messenger.timerId = setInterval(function() {
+			messenger.timer.secs = (new Date - secs) / 1000;
+			console.log(messenger.timer);
+			if (messenger.timer.secs > 60) {
+				messenger.timer.mins++;
+				messenger.timer.secs = 0;
+				secs = new Date;
+			}
+
+			if (messenger.timer.secs < 10) {
+				time = messenger.timer.mins + ':0' + Math.floor(messenger.timer.secs);
+			} else {
+				time = messenger.timer.mins + ':' + Math.floor(messenger.timer.secs);
+			}
+			console.log(time);
+			$('.callStatus').text(time);
+		}, 1000);
+    },
+
     bindEvents: function() {
+    	// User list
     	$('#user-list').on('click', 'li', function() {
     		var id = $(this).attr('id');
+    		
+    		messenger.currUser = messenger.users[id];
 
     		$('#user-list li').removeClass('active');
     		$(this).addClass('active');
@@ -166,6 +246,7 @@ var messenger = {
     		}
         });
 
+    	// Profile view
         $('#profileBtn').bind('click', function(ev) {
         	ev.preventDefault();
         	var id = $('#user-list li.active').attr('id'),
@@ -173,16 +254,21 @@ var messenger = {
         	messenger.viewProfile(id, !flag);
         });
 
+
+        // Profile view back btn
         $('.profilePane .backBtn').bind('click', function(ev) {
         	ev.preventDefault();
         	$('.profilePane').fadeOut('slow');
         });
 
-        /* action btns */
-		$('.callBtn').bind('click', function(ev) {
-        	ev.preventDefault();
+        /* Profile view action btns */
+		$('.profilePane').on('click', '.callBtn', function() {
         	messenger.startCall();
-        });        
+        });
+
+        $('#wrapper').on('click', '.endBtn', function() {
+        	messenger.endCall();
+        });
     }
 }
 
