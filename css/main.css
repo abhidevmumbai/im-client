@@ -183,13 +183,18 @@ body {
 	color: #d6dee7;
 	text-decoration: none;
 }
+.profilePane .actions {
+	width: 350px;
+	position: relative;
+}
 .profilePane .pic {
 	border-radius: 75px;
 	width: 150px;
 	height: 150px;
+	margin:0;
 }
 .profilePane p {
-	margin: 10px 0;
+	margin: 10px auto;
 }
 .profilePane .details {
 	margin: 25px auto 15px auto;
@@ -208,4 +213,27 @@ body {
 }
 .profilePane .details .desc {
 	font-size: 16px;
+}
+
+/* Buttons */
+.actions button {
+	color: #fff;
+	background: transparent;
+	display: block;
+	width: 56px;
+	height: 56px;
+	border:2px #fff solid;
+	border-radius: 28px;
+	display: none;
+	font-size: 22px;
+	position: absolute;
+	top: 20%;
+}
+.actions .emailBtn {
+	background: #397dab;	
+    left: 5%;
+}
+.actions .callBtn {
+	background: #ae4d3d;
+	right: 5%;
 }

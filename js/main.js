@@ -1,4 +1,5 @@
 var messenger = {
+	animationEnd: 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend',
     users: {
         aj: {
             pic: 'images/avatar.jpg',
@@ -95,6 +96,8 @@ var messenger = {
     init: function() {
         this.renderUsers();
         this.bindEvents();
+
+        $('#user-list #jh').click();
     },
 
     renderUsers: function() {
@@ -110,7 +113,10 @@ var messenger = {
     viewProfile: function (id, flag) {
     	var profilePane = $('.profilePane'),
     		user = this.users[id],
-    		html = '<p><img class="pic" src="'+ user.pic +'" /></p>'
+    		html = '<p class="actions">'
+    				+'<button class="emailBtn FL"><i class="fa fa-envelope"></i></button>'
+    				+'<button class="callBtn FR"><i class="fa fa-phone"></i></button>'
+    				+'<img class="pic" src="'+ user.pic +'" /></p>'
                     +'<p class="name">'+ user.name +'</p>'
                     +'<p>84/1300</p>'
                     +'<p>'+ user.department +'</p>'
@@ -129,7 +135,15 @@ var messenger = {
     	profilePane.find('.name').text(user.name);
     	profilePane.find('.content').html(html);
     	if (flag) {
-    		profilePane.fadeIn('slow');
+    		profilePane.fadeIn('slow', function () {
+    			$(this).find('.emailBtn').show().addClass('animated zoomIn').one(messenger.animationEnd, function () {
+    				$(this).removeClass('animated zoomIn');
+    			});
+
+    			$(this).find('.callBtn').show().addClass('animated zoomIn').one(messenger.animationEnd, function () {
+    				$(this).removeClass('animated zoomIn');
+    			});
+    		});
     	} else {
     		profilePane.fadeOut('slow');
     	}
@@ -159,6 +173,12 @@ var messenger = {
         	ev.preventDefault();
         	$('.profilePane').fadeOut('slow');
         });
+
+        /* action btns */
+		$('.callBtn').bind('click', function(ev) {
+        	ev.preventDefault();
+        	messenger.startCall();
+        });        
     }
 }
 
