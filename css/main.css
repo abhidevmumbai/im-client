@@ -116,7 +116,7 @@ body {
 
 /* Messages */ 
 .conversation {
-	max-height: 445px;
+	max-height: 343px;
 	overflow-y: scroll;
 }
 .msgBox {
@@ -135,6 +135,31 @@ body {
 	color: #929DA8;
 }
 
+.inputBox {
+	border-top: 1px #ccd8de solid;
+	height: 59px;
+    padding: 20px;
+}
+.inputBox .input {
+	border: 1px #ccd8de solid;
+	padding: 5px;
+	position: relative;
+}
+.input i{
+	color: #929DA8;
+	position: absolute;
+    top: 10px;
+    transform: rotateX(180deg);
+    font-size: 22px;
+    left: 95%;
+}
+.input input {
+	border: none;
+	font-size: 14px;
+	padding: 10px;
+	width: 95%;
+	box-sizing: border-box;
+}
 /* Profile Pane */
 .profilePane {
 	background: #4b91c0;
