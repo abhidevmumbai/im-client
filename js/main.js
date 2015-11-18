@@ -164,6 +164,7 @@ var messenger = {
 
     startCall: function () {
     	console.log('starting call');
+    	messenger.callActive = true;
     	var profilePane = $('.profilePane');
     	profilePane.find('.callStatus').show();
     	$('.callStatus').slideDown();
@@ -192,7 +193,9 @@ var messenger = {
     	// Reset timer
     	clearInterval(messenger.timerId);
     	this.timer.secs = 0;
-    	this.timer.mins = 0; 
+    	this.timer.mins = 0;
+
+    	messenger.callActive = false;
     },
 
     startTimer: function () {
@@ -201,6 +204,7 @@ var messenger = {
     		secs = new Date,
 			time = '';
 
+		$('.callStatus').text(time);
 		rightPane.find('.name').text(messenger.currUser.name);
 		rightPane.find('.content .callBox').slideDown();
 
@@ -236,6 +240,10 @@ var messenger = {
     		var id = $(this).attr('id');
     		
     		messenger.currUser = messenger.users[id];
+
+    		if (messenger.callActive) {
+    			messenger.endCall();
+    		}
 
     		$('#user-list li').removeClass('active');
     		$(this).addClass('active');
