@@ -132,6 +132,10 @@ var messenger = {
         details += '</ul>';
 		html += details;    	
 
+		profilePane.css({
+			'background': 'url("images/avatar.jpg") center no-repeat',
+			'background-size': '100% 100%'
+		});
     	profilePane.find('.name').text(user.name);
     	profilePane.find('.content').html(html);
     	if (flag) {

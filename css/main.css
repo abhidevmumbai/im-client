@@ -166,22 +166,32 @@ body {
 }
 /* Profile Pane */
 .profilePane {
-	background: #4b91c0;
-	box-sizing: border-box;
 	color: #d6dee7;
 	display: none;
 	font-weight: bold;
 	width: 100%;
 	height: 100%;
-	padding: 5%;
 	position: absolute;
 	text-align: center;
 	top: 0;
 	left: 0;
 }
 .profilePane a {
+	background: #4b91c0;
 	color: #d6dee7;
 	text-decoration: none;
+}
+.profilePane .content {
+	background: rgba(75, 145, 192, 0.95);
+    padding: 20px;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+}
+.profilePane .backBtn {
+	position: absolute;
+    left: 5%;
+    top: 5%;
 }
 .profilePane .actions {
 	width: 350px;
